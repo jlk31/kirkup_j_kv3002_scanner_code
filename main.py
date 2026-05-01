@@ -6,86 +6,64 @@ radio.set_group(67)
 
 sequence_number = 1
 object_counter = 1
-current_risk_index = 0
 risk_levels = ["LO", "MD", "HI"]
 sys_state = "IDLE"
+def classify_risk_from_sensor(sensor_val: any):
+    pass
+def build_payload(obj_id: any, risk: any):
+    pass
+def build_packet(obj_id2: any, risk2: any):
+    pass
+def transmit_scan(packet: any):
+    pass
+def handle_detected_event(risk3: any):
+    pass
+basic.show_string("SCAN")
 
-# Method for returning the next sequence
-
-def next_sequence():
-    global sequence_number
-    seq_text = ""
-    if sequence_number < 10:
-        seq_text = "O" + str(sequence_number)
-    else:
-        seq_text = str(sequence_number)
-
-    sequence_number += 1
-    if sequence_number > 99:
-        sequence_number = 1
-
-    return seq_text
+seq_text = ""
+object2 = ""
+object_counter = 0
+sequence_number = 0
+current_risk_index = 0
 
 # Method for returning the next object ID
 
 def next_object_id():
-    global object_counter
-    object = "D" + str(object_counter)
+    global object2, object_counter
+    object2 = "D" + ("" + str(object_counter))
     object_counter += 1
     if object_counter > 9:
         object_counter = 1
-
-    return object
-
+    return object2
+    
 # Checksum calculation Method
 
-def calc_checksum(data):
-    total = 0
-    for i in range(
 
-        
-
-    ):
-        total += ord(data[i])
-    val = total % 256
-    hexchars = "0123456789ABCDEF"
-    return hexchars[val // 16] + hexchars[val % 16]
 
 # Manual risk classification cycle method
 
 def classify_risk_manual_cycle():
     pass
 
-# Sensor-obtained risk classification cycle Method
+# Method for returning the next sequence
 
-def classify_risk_from_sensor(sensor_val):
-    pass
+def next_sequence():
+    global seq_text, sequence_number
+    if sequence_number < 10:
+        seq_text = "O" + ("" + str(sequence_number))
+    else:
+        seq_text = "" + str(sequence_number)
 
-# Method to build packet payload
-
-def build_payload(obj_id, risk):
-    pass
-
-# Method to build packet
-
-def build_packet(obj_id, risk):
-    pass
-
-# Scan transmission Method
-
-def transmit_scan(packet):
-    pass
-
-# Event handler
-
-def handle_detected_event(risk):
-    pass
+    sequence_number += 1
+    if sequence_number > 99:
+        sequence_number = 1
+    return seq_text
 
 # Method to handle button A Event
 
 def on_button_pressed_a():
     pass
-
+    
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 # Method to handle button B Event
@@ -94,6 +72,3 @@ def on_button_pressed_b():
     pass
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
-
-basic.show_string("SCAN")
-
