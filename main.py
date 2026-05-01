@@ -38,7 +38,8 @@ def next_object_id():
     
 # Checksum calculation Method
 
-
+def calc_checksum(data):
+    pass
 
 # Manual risk classification cycle method
 

@@ -44,6 +44,10 @@ function next_object_id(): string {
 }
 
 //  Checksum calculation Method
+function calc_checksum(data: any) {
+    
+}
+
 //  Manual risk classification cycle method
 function classify_risk_manual_cycle() {
     
