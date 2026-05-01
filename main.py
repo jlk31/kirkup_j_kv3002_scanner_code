@@ -41,7 +41,11 @@ def next_object_id():
 
 def calc_checksum(data):
     total = 0
-    for i in range():
+    for i in range(
+
+        
+
+    ):
         total += ord(data[i])
     val = total % 256
     hexchars = "0123456789ABCDEF"
@@ -49,27 +53,33 @@ def calc_checksum(data):
 
 # Manual risk classification cycle method
 
-
+def classify_risk_manual_cycle():
+    pass
 
 # Sensor-obtained risk classification cycle Method
 
-
+def classify_risk_from_sensor(sensor_val):
+    pass
 
 # Method to build packet payload
 
-
+def build_payload(obj_id, risk):
+    pass
 
 # Method to build packet
 
-
+def build_packet(obj_id, risk):
+    pass
 
 # Scan transmission Method
 
-
+def transmit_scan(packet):
+    pass
 
 # Event handler
 
-
+def handle_detected_event(risk):
+    pass
 
 # Method to handle button A Event
 

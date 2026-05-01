@@ -39,11 +39,35 @@ function next_object_id() {
 //  Checksum calculation Method
 
 //  Manual risk classification cycle method
+function classify_risk_manual_cycle() {
+    
+}
+
 //  Sensor-obtained risk classification cycle Method
+function classify_risk_from_sensor(sensor_val: any) {
+    
+}
+
 //  Method to build packet payload
+function build_payload(obj_id: any, risk: any) {
+    
+}
+
 //  Method to build packet
+function build_packet(obj_id: any, risk: any) {
+    
+}
+
 //  Scan transmission Method
+function transmit_scan(packet: any) {
+    
+}
+
 //  Event handler
+function handle_detected_event(risk: any) {
+    
+}
+
 //  Method to handle button A Event
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
