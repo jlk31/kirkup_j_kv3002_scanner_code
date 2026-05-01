@@ -36,3 +36,20 @@ function next_object_id() {
     return object
 }
 
+//  Checksum calculation Method
+
+//  Manual risk classification cycle method
+//  Sensor-obtained risk classification cycle Method
+//  Method to build packet payload
+//  Method to build packet
+//  Scan transmission Method
+//  Event handler
+//  Method to handle button A Event
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    
+})
+//  Method to handle button B Event
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+})
+basic.showString("SCAN")

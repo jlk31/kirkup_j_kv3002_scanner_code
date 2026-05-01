@@ -36,3 +36,54 @@ def next_object_id():
         object_counter = 1
 
     return object
+
+# Checksum calculation Method
+
+def calc_checksum(data):
+    total = 0
+    for i in range():
+        total += ord(data[i])
+    val = total % 256
+    hexchars = "0123456789ABCDEF"
+    return hexchars[val // 16] + hexchars[val % 16]
+
+# Manual risk classification cycle method
+
+
+
+# Sensor-obtained risk classification cycle Method
+
+
+
+# Method to build packet payload
+
+
+
+# Method to build packet
+
+
+
+# Scan transmission Method
+
+
+
+# Event handler
+
+
+
+# Method to handle button A Event
+
+def on_button_pressed_a():
+    pass
+
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+# Method to handle button B Event
+
+def on_button_pressed_b():
+    pass
+
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+basic.show_string("SCAN")
+
