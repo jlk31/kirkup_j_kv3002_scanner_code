@@ -143,7 +143,30 @@ function transmit_scanner_packet(packet: string) {
 }
 
 //  Event handler
-function event_handler(risk: string) {
+function event_handler(risk: string, mode: string, sensor_val: number) {
+    
+    //  If statement to handle attempts at using the scanner if it is still on cooldown
+    if (!scanner_ready()) {
+        sys_state = "SCANNER IS STILL ON COOLDOWN"
+        cooldown_blocks += 1
+        serial.writeLine("BLOCKED=Cooldown active")
+        basic.showIcon(IconNames.No)
+        basic.pause(200)
+        basic.clearScreen()
+        sys_state = "IDLE"
+        return
+    }
+    
+    //  If statement to handle invalid risk levels that are not recognised by the system
+    if (risk != "LO" && risk != "MD" && risk != "HI") {
+        sys_state = "INVALID RISK LEVEL"
+        serial.writeLine("ERROR=Invalid risk level")
+        basic.showIcon(IconNames.No)
+        basic.pause(200)
+        basic.clearScreen()
+        sys_state = "IDLE"
+        return
+    }
     
     sys_state = "EVENT DETECTED"
     let obj_id = next_object_id()
@@ -160,14 +183,18 @@ function event_handler(risk: string) {
 
 //  Method to handle button A Event
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    
+    manual_events += 1
     let risk = classify_risk_manual_cycle()
-    event_handler(risk)
+    event_handler(risk, "MANUAL", -1)
 })
 //  Method to handle button B Event (uses light level sensor from grove kit)
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    sensor_events += 1
     let sensor_val = input.lightLevel()
     let risk = classify_risk_from_sensor(sensor_val)
     serial.writeLine("Sensor value: " + ("" + sensor_val))
-    event_handler(risk)
+    event_handler(risk, "SENSOR", sensor_val)
 })
 basic.showString("SCAN")

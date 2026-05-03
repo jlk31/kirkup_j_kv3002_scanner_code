@@ -140,8 +140,30 @@ def transmit_scanner_packet(packet):
 
 # Event handler
 
-def event_handler(risk):
-    global sys_state
+def event_handler(risk, mode, sensor_val):
+    global sys_state, last_send_time, cooldown_blocks
+
+    # If statement to handle attempts at using the scanner if it is still on cooldown
+    if not scanner_ready():
+        sys_state = "SCANNER IS STILL ON COOLDOWN"
+        cooldown_blocks += 1
+        serial.write_line("BLOCKED=Cooldown active")
+        basic.show_icon(IconNames.NO)
+        basic.pause(200)
+        basic.clear_screen()
+        sys_state = "IDLE"
+        return
+
+    # If statement to handle invalid risk levels that are not recognised by the system
+    if risk != "LO" and risk != "MD" and risk != "HI":
+        sys_state = "INVALID RISK LEVEL"
+        serial.write_line("ERROR=Invalid risk level")
+        basic.show_icon(IconNames.NO)
+        basic.pause(200)
+        basic.clear_screen()
+        sys_state = "IDLE"
+        return  
+
     sys_state = "EVENT DETECTED"
     obj_id = next_object_id()
 
@@ -162,18 +184,22 @@ def event_handler(risk):
 # Method to handle button A Event
 
 def on_button_pressed_a():
+    global manual_events
+    manual_events += 1
     risk = classify_risk_manual_cycle()
-    event_handler(risk)
+    event_handler(risk, "MANUAL", -1)
     
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 # Method to handle button B Event (uses light level sensor from grove kit)
 
 def on_button_pressed_b():
+    global sensor_events
+    sensor_events += 1
     sensor_val = input.light_level()
     risk = classify_risk_from_sensor(sensor_val)
     serial.write_line("Sensor value: " + str(sensor_val))
-    event_handler(risk)
+    event_handler(risk, "SENSOR", sensor_val)
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
