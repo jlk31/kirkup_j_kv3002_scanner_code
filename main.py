@@ -191,7 +191,7 @@ def on_button_pressed_a():
     
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
-# Method to handle button B Event (uses light level sensor from grove kit)
+# Method to handle button B event (uses light level sensor from grove kit)
 
 def on_button_pressed_b():
     global sensor_events
@@ -203,4 +203,15 @@ def on_button_pressed_b():
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
-basic.show_string("SCAN")
+# Method to handle buttons A and B events simultaneously
+
+def on_button_pressed_ab():
+    serial.write_line("STATS")
+    serial.write_line("Packets sent=" + str(packets_sent))
+    serial.write_line("Manual events=" + str(manual_events))
+    serial.write_line("Sensor events=" + str(sensor_events))
+    serial.write_line("Cooldown blocks=" + str(cooldown_blocks))
+    serial.write_line("State" + sys_state)
+    serial.write_line("------")
+
+input.on_button_pressed(Button.AB, on_button_pressed_ab)

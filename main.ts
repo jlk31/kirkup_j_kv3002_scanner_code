@@ -188,7 +188,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let risk = classify_risk_manual_cycle()
     event_handler(risk, "MANUAL", -1)
 })
-//  Method to handle button B Event (uses light level sensor from grove kit)
+//  Method to handle button B event (uses light level sensor from grove kit)
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
     sensor_events += 1
@@ -197,4 +197,13 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     serial.writeLine("Sensor value: " + ("" + sensor_val))
     event_handler(risk, "SENSOR", sensor_val)
 })
-basic.showString("SCAN")
+//  Method to handle buttons A and B events simultaneously
+input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
+    serial.writeLine("STATS")
+    serial.writeLine("Packets sent=" + ("" + packets_sent))
+    serial.writeLine("Manual events=" + ("" + manual_events))
+    serial.writeLine("Sensor events=" + ("" + sensor_events))
+    serial.writeLine("Cooldown blocks=" + ("" + cooldown_blocks))
+    serial.writeLine("State" + sys_state)
+    serial.writeLine("------")
+})
