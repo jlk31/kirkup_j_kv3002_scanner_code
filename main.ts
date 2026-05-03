@@ -52,8 +52,9 @@ function calc_checksum(data: string): string {
                 break
             }
             
-            total = (total + code) % 256
         }
+        //  total contained outside of lookup loop to produce a viable checksum
+        total = (total + code) % 256
     }
     let hexchars = "0123456789ABCDEF"
     return hexchars[Math.idiv(total, 16)] + hexchars[total % 16]

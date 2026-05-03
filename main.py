@@ -51,7 +51,8 @@ def calc_checksum(data:str) -> str:
             if asciichars[i] == ch:
                 code = 32 + i
                 break
-            total = (total + code) % 256
+        # total contained outside of lookup loop to produce a viable checksum
+        total = (total + code) % 256
 
     hexchars = "0123456789ABCDEF"
     return hexchars[total // 16] + hexchars[total % 16]
