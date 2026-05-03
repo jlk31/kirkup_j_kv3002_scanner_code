@@ -1,21 +1,20 @@
 //  Radio group set
 radio.setGroup(167)
 //  Basic variables defined
+//  Sequence and object counters defined at 1 to align with 01-99 and D1-D9 protocol expectations
 let sequence_counter = 1
 let object_counter = 1
 let risk_levels = ["LO", "MD", "HI"]
 let sys_state = "IDLE"
-basic.showString("SCAN")
 let seq_text = ""
 let obj = ""
-object_counter = 0
-let sequence_number = 0
 let current_risk_index = 0
 //  Method for returning the next sequence
 function next_sequence(): string {
+    let sequence_number: number;
     
     if (sequence_number < 10) {
-        seq_text = "O" + ("" + ("" + sequence_number))
+        seq_text = "0" + ("" + ("" + sequence_number))
     } else {
         seq_text = "" + ("" + sequence_number)
     }

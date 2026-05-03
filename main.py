@@ -4,23 +4,22 @@ radio.set_group(167)
 
 # Basic variables defined
 
+# Sequence and object counters defined at 1 to align with 01-99 and D1-D9 protocol expectations
+
 sequence_counter = 1
 object_counter = 1
 risk_levels = ["LO", "MD", "HI"]
 sys_state = "IDLE"
-basic.show_string("SCAN")
 seq_text = ""
 obj = ""
-object_counter = 0
-sequence_number = 0
 current_risk_index = 0
 
 # Method for returning the next sequence
 
 def next_sequence():
-    global seq_text, sequence_number
+    global seq_text, sequence_counter
     if sequence_number < 10:
-        seq_text = "O" + ("" + str(sequence_number))
+        seq_text = "0" + ("" + str(sequence_number))
     else:
         seq_text = "" + str(sequence_number)
 
