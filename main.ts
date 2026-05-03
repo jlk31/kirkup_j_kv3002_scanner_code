@@ -126,7 +126,11 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let risk = classify_risk_manual_cycle()
     event_handler(risk)
 })
-//  Method to handle button B Event
+//  Method to handle button B Event (uses light level sensor from grove kit)
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
+    let sensor_val = input.lightLevel()
+    let risk = classify_risk_from_sensor(sensor_val)
+    serial.writeLine("Sensor value: " + ("" + sensor_val))
+    event_handler(risk)
 })
+basic.showString("SCAN")

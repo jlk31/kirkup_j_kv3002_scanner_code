@@ -129,9 +129,14 @@ def on_button_pressed_a():
     
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
-# Method to handle button B Event
+# Method to handle button B Event (uses light level sensor from grove kit)
 
 def on_button_pressed_b():
-    pass
+    sensor_val = input.light_level()
+    risk = classify_risk_from_sensor(sensor_val)
+    serial.write_line("Sensor value: " + str(sensor_val))
+    event_handler(risk)
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
+
+basic.show_string("SCAN")
