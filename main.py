@@ -91,12 +91,17 @@ def read_smoothed_light():
 # Method to handle risk clasification from sensor_val (simple if/elif statement)
 
 def classify_risk_from_sensor(sensor_val: any):
-    if sensor_val < 350:
+    if sensor_val < 80:
         return "LO"
-    elif sensor_val < 700:
+    elif sensor_val < 160:
         return "MD"
     else:
         return "HI"
+
+# Method to determine when the scanner is READY
+
+def scanner_ready():
+    return input.running_time() - last_send_time >= cooldown_ms
 
 # Method to build the packet to be transmitted's payload
 
@@ -114,10 +119,23 @@ def build_packet(obj_id, risk):
     packet = data + "|" + checksum
     return packet
 
+# Method to log the scanner's current state and event details to the serial monitor
+
+def log_status(mode, sensor_val, obj_id, risk, packet):
+    serial.write_line("STATE=" + sys_state)
+    serial.write_line("MODE=" + mode)
+    serial.write_line("SENSOR=" + str(sensor_val))
+    serial.write_line("OBJ=" + obj_id)
+    serial.write_line("RISK=" + risk)
+    serial.write_line("PACKET=" + packet)
+    serial.write_line("---")
+
 # Method to transmit the scanner's build_packet
 
 def transmit_scanner_packet(packet):
+    global packets_sent
     radio.send_string(packet)
+    packets_sent += 1
     serial.write_line("TX: " + packet)
 
 # Event handler

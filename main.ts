@@ -92,14 +92,19 @@ function read_smoothed_light(): number {
 
 //  Method to handle risk clasification from sensor_val (simple if/elif statement)
 function classify_risk_from_sensor(sensor_val: any): string {
-    if (sensor_val < 350) {
+    if (sensor_val < 80) {
         return "LO"
-    } else if (sensor_val < 700) {
+    } else if (sensor_val < 160) {
         return "MD"
     } else {
         return "HI"
     }
     
+}
+
+//  Method to determine when the scanner is READY
+function scanner_ready() {
+    return input.runningTime() - last_send_time >= cooldown_ms
 }
 
 //  Method to build the packet to be transmitted's payload
@@ -118,9 +123,22 @@ function build_packet(obj_id: string, risk: string): string {
     return packet
 }
 
+//  Method to log the scanner's current state and event details to the serial monitor
+function log_status(mode: any, sensor_val: any, obj_id: any, risk: any, packet: any) {
+    serial.writeLine("STATE=" + sys_state)
+    serial.writeLine("MODE=" + mode)
+    serial.writeLine("SENSOR=" + ("" + sensor_val))
+    serial.writeLine("OBJ=" + obj_id)
+    serial.writeLine("RISK=" + risk)
+    serial.writeLine("PACKET=" + packet)
+    serial.writeLine("---")
+}
+
 //  Method to transmit the scanner's build_packet
 function transmit_scanner_packet(packet: string) {
+    
     radio.sendString(packet)
+    packets_sent += 1
     serial.writeLine("TX: " + packet)
 }
 
