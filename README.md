@@ -37,7 +37,7 @@ The challenge requires teams to define a structured packet with minimum content 
 
 ## Running the System
 
-A successful end-to-end demonstration should show the following sequence, which matches the brief's required mission outcomes [1]:
+A successful end-to-end demonstration should show the following sequence, which matches the brief's required mission outcomes:
 
 1. The Scanner detects or simulates a debris event and transmits a structured packet.
 2. Mission Control receives the packet, parses it, and applies decision logic.
