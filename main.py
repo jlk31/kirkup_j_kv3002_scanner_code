@@ -1,18 +1,28 @@
-# Radio group set
+# Radio group set to 167
 
 radio.set_group(167)
 
 # Basic variables defined
 
 # Sequence and object counters defined at 1 to align with 01-99 and D1-D9 protocol expectations
-
 sequence_counter = 1
 object_counter = 1
-risk_levels = ["LO", "MD", "HI"]
-sys_state = "IDLE"
+current_risk_index = 0
 seq_text = ""
 obj = ""
-current_risk_index = 0
+risk_levels = ["LO", "MD", "HI"]
+
+sys_state = "IDLE"
+# Cooldown variables defined
+last_send_time = -2000
+cooldown_ms = 1500
+
+packets_sent = 0
+manual_events = 0
+sensor_events = 0
+cooldown_blocks = 0
+
+basic.show_string("SCAN")
 
 # Method for returning the next sequence
 
@@ -43,7 +53,7 @@ def next_object_id():
 
 def calc_checksum(data:str) -> str:
     total = 0
-    asciichars = "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    asciichars = " !,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
     for ch in data:
         code = 32
@@ -68,6 +78,15 @@ def classify_risk_manual_cycle():
         current_risk_index = 0
 
     return risk
+
+# Method to read light levels
+
+def read_smoothed_light():
+    total = 0
+    for i in range(3):
+        total += input.light_level()
+        basic.pause(20)
+    return total // 3
 
 # Method to handle risk clasification from sensor_val (simple if/elif statement)
 

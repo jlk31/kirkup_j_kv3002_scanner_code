@@ -1,14 +1,22 @@
-//  Radio group set
+//  Radio group set to 167
 radio.setGroup(167)
 //  Basic variables defined
 //  Sequence and object counters defined at 1 to align with 01-99 and D1-D9 protocol expectations
 let sequence_counter = 1
 let object_counter = 1
-let risk_levels = ["LO", "MD", "HI"]
-let sys_state = "IDLE"
+let current_risk_index = 0
 let seq_text = ""
 let obj = ""
-let current_risk_index = 0
+let risk_levels = ["LO", "MD", "HI"]
+let sys_state = "IDLE"
+//  Cooldown variables defined
+let last_send_time = -2000
+let cooldown_ms = 1500
+let packets_sent = 0
+let manual_events = 0
+let sensor_events = 0
+let cooldown_blocks = 0
+basic.showString("SCAN")
 //  Method for returning the next sequence
 function next_sequence(): string {
     let sequence_number: number;
@@ -43,7 +51,7 @@ function next_object_id(): string {
 function calc_checksum(data: string): string {
     let code: number;
     let total = 0
-    let asciichars = "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    let asciichars = " !,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     for (let ch of data) {
         code = 32
         for (let i = 0; i < asciichars.length; i++) {
@@ -70,6 +78,16 @@ function classify_risk_manual_cycle(): string {
     }
     
     return risk
+}
+
+//  Method to read light levels
+function read_smoothed_light(): number {
+    let total = 0
+    for (let i = 0; i < 3; i++) {
+        total += input.lightLevel()
+        basic.pause(20)
+    }
+    return Math.idiv(total, 3)
 }
 
 //  Method to handle risk clasification from sensor_val (simple if/elif statement)
