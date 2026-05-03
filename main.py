@@ -203,7 +203,9 @@ def on_button_pressed_b():
 
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
-# Method to handle buttons A and B events simultaneously
+# Method to print scanner statistics to serial when A and B are pressed simultaneously
+# Method for debug and reporting to check scanner state, event counts and cooldown behaviour
+# without affecting packet transmission
 
 def on_button_pressed_ab():
     serial.write_line("STATS")

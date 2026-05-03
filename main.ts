@@ -197,7 +197,9 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     serial.writeLine("Sensor value: " + ("" + sensor_val))
     event_handler(risk, "SENSOR", sensor_val)
 })
-//  Method to handle buttons A and B events simultaneously
+//  Method to print scanner statistics to serial when A and B are pressed simultaneously
+//  Method for debug and reporting to check scanner state, event counts and cooldown behaviour
+//  without affecting packet transmission
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     serial.writeLine("STATS")
     serial.writeLine("Packets sent=" + ("" + packets_sent))
