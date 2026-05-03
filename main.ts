@@ -93,7 +93,8 @@ function build_packet(obj_id: string, risk: string): string {
     let seq = next_sequence()
     let payload = build_payload(obj_id, risk)
     let data = "SCAN|" + seq + "|" + payload
-    let checksum = calc_checksum("")
+    //  data is called within calc_checksum method to calculate every packet checksum on numeric format
+    let checksum = calc_checksum(data)
     let packet = data + "|" + checksum
     return packet
 }
