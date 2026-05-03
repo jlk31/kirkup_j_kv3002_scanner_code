@@ -123,7 +123,8 @@ function event_handler(risk: string) {
 
 //  Method to handle button A Event
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
+    let risk = classify_risk_manual_cycle()
+    event_handler(risk)
 })
 //  Method to handle button B Event
 input.onButtonPressed(Button.B, function on_button_pressed_b() {

@@ -124,7 +124,8 @@ def event_handler(risk):
 # Method to handle button A Event
 
 def on_button_pressed_a():
-    pass
+    risk = classify_risk_manual_cycle()
+    event_handler(risk)
     
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
