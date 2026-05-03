@@ -1,5 +1,5 @@
 //  Radio group set
-radio.setGroup(67)
+radio.setGroup(167)
 //  Basic variables defined
 let sequence_number = 1
 let object_counter = 1
@@ -44,8 +44,23 @@ function next_object_id(): string {
 }
 
 //  Checksum calculation Method
-function calc_checksum(data: any) {
-    
+function calc_checksum(data: string): string {
+    let code: number;
+    let total = 0
+    let asciichars = "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    for (let ch of data) {
+        code = 32
+        for (let i = 0; i < asciichars.length; i++) {
+            if (asciichars[i] == ch) {
+                code = 32 + i
+                break
+            }
+            
+            total = (total + code) % 256
+        }
+    }
+    let hexchars = "0123456789ABCDEF"
+    return hexchars[Math.idiv(total, 16)] + hexchars[total % 16]
 }
 
 //  Manual risk classification cycle method

@@ -1,6 +1,6 @@
 # Radio group set
 
-radio.set_group(67)
+radio.set_group(167)
 
 # Basic variables defined
 
@@ -38,8 +38,20 @@ def next_object_id():
     
 # Checksum calculation Method
 
-def calc_checksum(data):
-    pass
+def calc_checksum(data:str) -> str:
+    total = 0
+    asciichars = "!,-.0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+    for ch in data:
+        code = 32
+        for i in range(len(asciichars)):
+            if asciichars[i] == ch:
+                code = 32 + i
+                break
+            total = (total + code) % 256
+
+    hexchars = "0123456789ABCDEF"
+    return hexchars[total // 16] + hexchars[total % 16]
 
 # Manual risk classification cycle method
 
