@@ -113,7 +113,7 @@ def build_payload(obj_id, risk):
 def build_packet(obj_id, risk):
     seq = next_sequence()
     payload = build_payload(obj_id, risk)
-    data = "SC|" + sequence_counter + "|" + payload
+    data = "SC|" + seq + "|" + payload
     # data is called within calc_checksum method to calculate every packet checksum on numeric format
     checksum = calc_checksum(data)
     packet = data + "|" + checksum

@@ -115,7 +115,7 @@ function build_payload(obj_id: string, risk: string) {
 function build_packet(obj_id: string, risk: string): string {
     let seq = next_sequence()
     let payload = build_payload(obj_id, risk)
-    let data = "SC|" + sequence_counter + "|" + payload
+    let data = "SC|" + seq + "|" + payload
     //  data is called within calc_checksum method to calculate every packet checksum on numeric format
     let checksum = calc_checksum(data)
     let packet = data + "|" + checksum
