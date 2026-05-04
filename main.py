@@ -1,6 +1,6 @@
-# Radio group set to 167
+# Radio group set to 67
 
-radio.set_group(167)
+radio.set_group(67)
 
 # Basic variables defined
 
@@ -28,14 +28,14 @@ basic.show_string("SCAN")
 
 def next_sequence():
     global seq_text, sequence_counter
-    if sequence_number < 10:
-        seq_text = "0" + ("" + str(sequence_number))
+    if sequence_counter < 10:
+        seq_text = "0" + ("" + str(sequence_counter))
     else:
-        seq_text = "" + str(sequence_number)
+        seq_text = "" + str(sequence_counter)
 
-    sequence_number += 1
-    if sequence_number > 99:
-        sequence_number = 1
+    sequence_counter += 1
+    if sequence_counter > 99:
+        sequence_counter = 1
         
     return seq_text
 
@@ -106,14 +106,14 @@ def scanner_ready():
 # Method to build the packet to be transmitted's payload
 
 def build_payload(obj_id, risk):
-    return "OBJ" + obj_id + ",RSK" + risk
+    return "OBJ:" + obj_id + ",RSK:" + risk
 
 # Method to build the packet to be transmitted
 
 def build_packet(obj_id, risk):
     seq = next_sequence()
     payload = build_payload(obj_id, risk)
-    data = "SCAN|" + seq + "|" + payload
+    data = "SC|" + sequence_counter + "|" + payload
     # data is called within calc_checksum method to calculate every packet checksum on numeric format
     checksum = calc_checksum(data)
     packet = data + "|" + checksum
@@ -135,6 +135,7 @@ def log_status(mode, sensor_val, obj_id, risk, packet):
 def transmit_scanner_packet(packet):
     global packets_sent
     radio.send_string(packet)
+    serial.write_line(packet)
     packets_sent += 1
     serial.write_line("TX: " + packet)
 
@@ -179,7 +180,6 @@ def event_handler(risk, mode, sensor_val):
     basic.clear_screen()
 
     sys_state = "IDLE"
-
 
 # Method to handle button A Event
 

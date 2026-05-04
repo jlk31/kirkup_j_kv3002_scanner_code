@@ -1,5 +1,5 @@
-//  Radio group set to 167
-radio.setGroup(167)
+//  Radio group set to 67
+radio.setGroup(67)
 //  Basic variables defined
 //  Sequence and object counters defined at 1 to align with 01-99 and D1-D9 protocol expectations
 let sequence_counter = 1
@@ -19,17 +19,16 @@ let cooldown_blocks = 0
 basic.showString("SCAN")
 //  Method for returning the next sequence
 function next_sequence(): string {
-    let sequence_number: number;
     
-    if (sequence_number < 10) {
-        seq_text = "0" + ("" + ("" + sequence_number))
+    if (sequence_counter < 10) {
+        seq_text = "0" + ("" + ("" + sequence_counter))
     } else {
-        seq_text = "" + ("" + sequence_number)
+        seq_text = "" + ("" + sequence_counter)
     }
     
-    sequence_number += 1
-    if (sequence_number > 99) {
-        sequence_number = 1
+    sequence_counter += 1
+    if (sequence_counter > 99) {
+        sequence_counter = 1
     }
     
     return seq_text
@@ -109,14 +108,14 @@ function scanner_ready() {
 
 //  Method to build the packet to be transmitted's payload
 function build_payload(obj_id: string, risk: string) {
-    return "OBJ" + obj_id + ",RSK" + risk
+    return "OBJ:" + obj_id + ",RSK:" + risk
 }
 
 //  Method to build the packet to be transmitted
 function build_packet(obj_id: string, risk: string): string {
     let seq = next_sequence()
     let payload = build_payload(obj_id, risk)
-    let data = "SCAN|" + seq + "|" + payload
+    let data = "SC|" + sequence_counter + "|" + payload
     //  data is called within calc_checksum method to calculate every packet checksum on numeric format
     let checksum = calc_checksum(data)
     let packet = data + "|" + checksum
@@ -138,6 +137,7 @@ function log_status(mode: any, sensor_val: any, obj_id: any, risk: any, packet: 
 function transmit_scanner_packet(packet: string) {
     
     radio.sendString(packet)
+    serial.writeLine(packet)
     packets_sent += 1
     serial.writeLine("TX: " + packet)
 }
